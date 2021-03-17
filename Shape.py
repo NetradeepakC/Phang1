@@ -64,7 +64,7 @@ class Shape:
 			for i in range(len(COM)):
 				self.COM[i]/=self.net_mass#Weighted average of coordinates
 	def hitbox_approximate(self):
-		def remove_repeats(points):
+		def remove_repeats(points):#Remove repeated points to reduce calculation and eliminate zero distance errors
 			i=0
 			while(i<len(points)):
 				j=i+1
@@ -77,7 +77,7 @@ class Shape:
 					j+=1
 				i+=1
 			return points
-		def remove_collinear(points):
+		def remove_collinear(points):#Remove collinear points to reduce calculation
 			i=0
 			while(i<len(points)):
 				j=i+1
@@ -109,10 +109,10 @@ class Shape:
 					j+=1
 				i+=1
 			return points
-		def find_coefficients(equations):
-			if(len(equations)==1):
+		def find_coefficients(equations):#Required to find equation of the n-1 dimensional body(line,plane...) that contains n points needed for integration
+			if(len(equations)==1):#If there is only one equation then the only variable can be calculated
 				return [equations[0].value/equations[0].coefficients[0]]
-			else:
+			else:#Using substitution method to solve multiple variables in recursion
 				coefficients=[[equations[i].coefficients[j]-equations[0].coefficients[j]*equations[i].coefficients[0]/coefficients[0].equations[0] for j in range(1,len(equations[0].coefficients))] for i in range(1,len(equations))]
 				value=[equations[i].value-equations[0].value*equations[i].coefficients[0]/equations[0].coefficients[0] for i in range(1,len(equations))]
 				coefficients=find_coefficients([equation(coefficients[i],value[i]) for i in range(len(equations)-1)])
