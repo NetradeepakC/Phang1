@@ -1,13 +1,17 @@
 class Shape:
+	
 	default_mass=1
 	default_thita=0
 	default_speedx=0
 	default_speedy=0
+	default_speedThita=0
+	
 	class equation:
 		def init(self,coefficients,value):
 			self.coefficients=coefficients
 			self.value=value
-	def init(self,points=[[0,0]],masses=[default_mass,default_mass],Thita=[default_thita],velocity=[default_speedx,default_speedy]):
+	
+	def init(self,points=[[0,0],[0,1],[1,0]],masses=[default_mass,default_mass,default_mass],Thita=[default_thita],velocity=[default_speedx,default_speedy],Thita_diff=[default_speedThita],connections=[[1,2],[2,0],[0,1]]):
 		dimension_error=0
 		if(not type(points)==list):
 			dimension_error=1
@@ -15,55 +19,82 @@ class Shape:
 			dimension_error=2
 		elif(not type(Thita)==list):
 			dimension_error=3
-		elif(not len(points)==len(masses)):
+		elif(not type(connections)==list):
 			dimension_error=4
-		elif(not len(points[0])==len(velocity)):
+		elif(not len(points)==len(masses)):
 			dimension_error=5
-		elif(not len(points[0])==len(Thita)-1):
+		elif(not len(points[0])==len(velocity)):
 			dimension_error=6
+		elif(not len(points[0])==len(Thita)-1):
+			dimension_error=7
+		elif(not len(points)==len(connections)):
+			dimension_error=8
 		else:
 			for i in points:
 				if(not type(i)==list):
-					dimension_error=7
+					dimension_error=9
 					break
 				if(len(i)==len(points[0])):
-					dimension_error=8
+					dimension_error=10
 					break
 				for j in i:
 					if(not(type(j)==float or type(j)==int)):
-						dimension_error=9
+						dimension_error=11
 						break
-				if(not dimension_error):
+				if(dimension_error):
 					break
-			for i in masses:
-				if(not (type(i)==int or type(i)==float)):
-					dimension_error=10
-					break
-				elif(i==0):
-					dimension_error=11
-					break
+			if(not dimension_error):
+				for i in masses:
+					if(not (type(i)==int or type(i)==float)):
+						dimension_error=12
+						break
+					elif(i==0):
+						dimension_error=13
+						break
+			if(not dimension_error):
+				for i in points:
+					if(not type(i)==list):
+						dimension_error=14
+						break
+					if(len(i)==len(points[0])):
+						dimension_error=15
+						break
+					for j in i:
+						if(not type(j)==int):
+							dimension_error=16
+							break
+					if(dimension_error):
+						break
 		if(dimension_error==1):
 			raise "Points has to be a list of points."
 		elif(dimension_error==2):
 			raise "Masses has to be a list of masses."
 		elif(dimension_error==3):
 			raise "Thita has to be a list of angles."
-		elif(dimension_error==4):
-			raise "Number of points must be equal to the number of masses"
 		elif(dimension_error==5):
-			raise "Dimension of points must be equal to dimension of velocity"
+			raise "Number of points must be equal to the number of masses."
 		elif(dimension_error==6):
-			raise "Incorrect number of angles provided"
+			raise "Dimension of points must be equal to dimension of velocity."
 		elif(dimension_error==7):
-			raise "Each point has to be a list of coordinates."
+			raise "Incorrect number of angles provided."
 		elif(dimension_error==8):
-			raise "Each point has to have the same dimensions."
+			raise "Number of points must be equal to the number of set of connections."
 		elif(dimension_error==9):
-			raise "Each coordinate has to be a number."
+			raise "Each point has to be a list of coordinates."
 		elif(dimension_error==10):
-			raise "Each mass has to be a number."
+			raise "Each point has to have the same dimensions."
 		elif(dimension_error==11):
+			raise "Each coordinate has to be a number."
+		elif(dimension_error==12):
+			raise "Each mass has to be a number."
+		elif(dimension_error==13):
 			raise "Mass of a point cannot be zero."
+		elif(dimension_error==14):
+			raise "Each set of connections must be a list of pointers to a point."
+		elif(dimension_error==15):
+			raise "Each point must be connected n number of points such that n is the number of dimensions."
+		elif(dimension_error==16):
+			raise "Each pointer has to be an integer."
 		else:
 			self.points=points#Coordinates of each point
 			self.hit_points=points#Coordinates for hitbox
@@ -78,7 +109,10 @@ class Shape:
 			for i in range(len(COM)):
 				self.COM[i]/=self.net_mass#Weighted average of coordinates
 			self.velocity=velocity
+			self.connections=connections
+	
 	def hitbox_approximate(self):
+		
 		def remove_repeats(hit_points):#Remove repeated points to reduce calculation and eliminate zero distance errors
 			i=0
 			while(i<len(hit_points)):
@@ -92,6 +126,7 @@ class Shape:
 					j+=1
 				i+=1
 			return hit_points
+		
 		def remove_collinear(hit_points):#Remove collinear points to reduce calculation
 			i=0
 			while(i<len(hit_points)):
@@ -124,6 +159,7 @@ class Shape:
 					j+=1
 				i+=1
 			return hit_points
+		
 		def find_coefficients(equations):#Required to find equation of the n-1 dimensional body(line,plane...) that contains n points needed for integration
 			if(len(equations)==1):#If there is only one equation then the only variable can be calculated
 				return [equations[0].value/equations[0].coefficients[0]]
@@ -136,3 +172,6 @@ class Shape:
 					a0-=coefficients[i]*equations[0].coefficients[i]
 				a0/=equations[0].coefficients[0]
 				return a0+coefficients
+		
+		self.hit_points=remove_repeats(self.hit_points)
+		self.hit_points=remove_collinear(self.hit_points)
