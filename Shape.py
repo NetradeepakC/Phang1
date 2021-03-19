@@ -68,12 +68,9 @@ class Shape:
 					if(not type(i)==list):
 						dimension_error=14
 						break
-					if(len(i)==len(points[0])):
-						dimension_error=15
-						break
 					for j in i:
 						if(not type(j)==int):
-							dimension_error=16
+							dimension_error=15
 							break
 					if(dimension_error):
 						break
@@ -104,8 +101,6 @@ class Shape:
 		elif(dimension_error==14):
 			raise "Each set of connections must be a list of pointers to a point."
 		elif(dimension_error==15):
-			raise "Each point must be connected n number of points such that n is the number of dimensions."
-		elif(dimension_error==16):
 			raise "Each pointer has to be an integer."
 		else:
 			self.points=points#Coordinates of each point
