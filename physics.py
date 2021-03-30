@@ -1,4 +1,3 @@
-# added a function to calulate the kinematics of the shape.
 """
 0.0:	target_mass
 0.1:	target_charge
@@ -9,7 +8,7 @@
 1.2.x:	source_coordinate
 1.3.x:	source_axial_velocity
 """
-import math.py
+import math
 class newtonian_physics_model:
 
 	def init(dimensions=2,point_ground_gravity=9.81,Gravitational_Constant=6.6743e-11,Vacuum_Electric_Permitivity=8.85412878128e-12,Vacuum_Magnetic_Permeability=1.25663706212e-6):
@@ -57,3 +56,16 @@ class newtonian_physics_model:
 				sum+=(target_coordinate[i]-source_coordinate[i])**2;
 			return sum;
 		return [(lambda values: values["0.1"] * values["1.1"] * (values["0.2."+str(i)]-values["1.2."+str(i)]) / (4*math.PI*self.Vacuum_Electric_Permitivity*(den(values)**(self.dimensions/2)))) for i in range(dimensions)]
+	
+	def Equate_Electrostatic_Potential(self,obj1,obj2):
+		if(obj1.conductivity and obj2.conductivity):
+			Charge_Transferred=0
+			if(self.dimensions==2):
+				log1=math.log(obj1.radius)
+				log2=math.log(obj2.radius)
+				Charge_Transferred=(obj1.charge*log1-obj2.charge*log2)/(log1+log2)
+			else:
+				Charge_Transferred=(obj1.charge*(obj2.radius**(1-self.dimensions))-obj2.charge*(obj1.radius**(1-self.dimensions)))/(obj1.radius**(1-self.dimensions)+obj2.radius**(1-self.dimensions))
+			obj1.charge-=Charge_Transferred
+			obj2.charge+=Charge+Transferred
+		return (obj1,obj2)
