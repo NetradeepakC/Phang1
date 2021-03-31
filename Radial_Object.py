@@ -11,7 +11,6 @@ class Radial_Object:
 	default_conductivity=True
 	
 	def init(self,position=[default_x,default_y],velocity=[default_speedx,default_speedy],mass=default_mass,charge=default_charge,radius=default_radius,conductivity=default_conductivity):
-		# initializing the Circle class with value.
 		self.position=position
 		self.velocity=velocity
 		self.mass=mass
