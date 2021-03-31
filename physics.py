@@ -9,6 +9,7 @@
 1.3.x:	source_axial_velocity
 """
 import math
+import custom_math as m2
 class newtonian_physics_model:
 
 	def __init__(self,dimensions=2,point_ground_gravity=9.81,Gravitational_Constant=6.6743e-11,Vacuum_Electric_Permittivity=8.85412878128e-12,Vacuum_Magnetic_Permeability=1.25663706212e-6):
@@ -60,4 +61,16 @@ class newtonian_physics_model:
 				Charge_Transferred=(obj1.charge*(obj2.radius**(1-self.dimensions))-obj2.charge*(obj1.radius**(1-self.dimensions)))/(obj1.radius**(1-self.dimensions)+obj2.radius**(1-self.dimensions))
 			obj1.charge-=Charge_Transferred
 			obj2.charge+=Charge+Transferred
-		return (obj1,obj2)
+	
+	def Surface_Collision(self,Radial_Object_List,Surface_List,time_step=1/60):
+		for i in Surface_List:
+			Magnitude_of_Normal=m2.Magnitude(i.coefficients)
+			Unit_Vector_Along_Normal=[j/Magnitude_of_Normal for j in i.coefficients]
+			for j in Radial_Object_List:
+				if(j.radius>m2.normal_from_surface(j.position,i)):
+					Cos=m2.Cos(j.velocity,i.coefficients)
+					Speed_Along_Normal=m2.Magnitude(j.velocity)*Cos
+					Velocity_Along_Normal=[Speed_Along_Normal*k for k in Unit_Vector_Along_Normal]
+					Velocity_Along_Surface=[j.velocity[k]-Velocity_Along_Normal[k] for k in range(len(j.velocity))]
+					j.position=[j.position[k]-Velocity_Along_Normal[k]*time_step for k in range(len(j.velocity))]
+					j.velocity=[Velocity_Along_Surface[k]-Velocity_Along_Normal[k] for k in range(len(j.velocity))]

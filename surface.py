@@ -17,7 +17,9 @@ class Surface:
 	def __init__(self,points,dimension):
 		coefficients=[]
 		values=[]
+		self.points=points
 		for i in range(dimension):
-			coefficients.append([points[i][j] for i in range(dimension)])
+			coefficients.append([points[i][j] for j in range(dimension)])
 			values.append(30)
 		self.coefficients=m2.solve_equations([m2.equation(coefficients[i],values[i]) for i in range(dimension)])
+		self.value=30
