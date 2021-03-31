@@ -14,7 +14,7 @@ The above mentioned equations are solved to get a1,a2,......an
 """
 import custom_math as m2
 class Surface:
-	def init(self,points,dimension):
+	def __init__(self,points,dimension):
 		coefficients=[]
 		values=[]
 		for i in range(dimension):

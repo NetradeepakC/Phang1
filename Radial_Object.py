@@ -8,12 +8,14 @@ class Radial_Object:
 	default_speedy=0
 	default_charge=0
 	default_radius=1
-	default_conductivity=True
+	default_conductivity=False
+	default_color=[255,255,255]
 	
-	def init(self,position=[default_x,default_y],velocity=[default_speedx,default_speedy],mass=default_mass,charge=default_charge,radius=default_radius,conductivity=default_conductivity):
+	def __init__(self,position=[default_x,default_y],velocity=[default_speedx,default_speedy],mass=default_mass,charge=default_charge,radius=default_radius,conductivity=default_conductivity,color=default_color):
 		self.position=position
 		self.velocity=velocity
 		self.mass=mass
 		self.charge=charge
 		self.radius=radius
 		self.conductivity=conductivity
+		self.color=color

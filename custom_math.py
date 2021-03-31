@@ -20,7 +20,7 @@ a2(X32-X12*X31/X11)+a3(X33-X13*X31/X11)+......an(X3n-X1n*X31/X11)=b3-b1*X31/X11
 a2(Xn2-X12*Xn1/X11)+a3(Xn3-X13*Xn1/X11)+......an(Xnn-X1n*Xn1/X11)=b2-b1*Xn1/X11
 """
 class equation:
-	def init(self,coefficients,value):
+	def __init__(self,coefficients,value):
 		self.coefficients=coefficients
 		self.value=value
 def solve_equations(equations):
