@@ -56,13 +56,13 @@ class Surface:
 		self.Centre_Parity=[];
 		self.use_perspective2=True
 		for i in boundry_list_perspective1:
-			self.Centre_Parity.append(m2.value_at(centre,i));
+			self.Centre_Parity.append(m2.value_at(centre[:-1],i));
 			if(not self.Centre_Parity[-1]==0):
 				self.use_perspective2=False
 		if(self.use_perspective2):
-			Centre_Parity=[]
+			self.Centre_Parity=[]
 			for i in boundry_list_perspective2:
-				self.Centre_Parity.append(m2.value_at(centre,i))
+				self.Centre_Parity.append(m2.value_at(centre[1:],i))
 			self.boundry_list=boundry_list_perspective2
 		else:
 			self.boundry_list=boundry_list_perspective1
