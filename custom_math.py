@@ -87,6 +87,12 @@ def Magnitude(A):
 	mag = math.sqrt(mag)
 	return mag
 
+def dist(PointA,PointB):
+	dist=0
+	for i in range(len(PointA)):
+		dist+=(PointA[i]-PointB[i])*(PointA[i]-PointB[i])
+	return math.sqrt(dist)
+
 def value_at(point,obj):
 	ans=-obj.value
 	for i in range(len(obj.coefficients)):

@@ -27,17 +27,16 @@ Radial_Object_List = []
 Surface_List = []
 Physics_Model_List = [phy.newtonian_physics_model()]
 Gravity_List = [Physics_Model_List[i].Get_Gravity() for i in range(len(Physics_Model_List))]
-Radial_Object_List.append(RO.Radial_Object([width/2-200+400*random.random(), height/2-200+400*random.random()], [100, 0], 2*22474266964325.848, 0, 5, False, [255, 0, 0]))
-Radial_Object_List.append(RO.Radial_Object([width/2-200+400*random.random(), height/2-200+400*random.random()], [0, 100], 2*22474266964325.848, 0, 5, False, [0, 255, 0]))
-Radial_Object_List.append(RO.Radial_Object([width/2-200+400*random.random(), height/2-200+400*random.random()], [-100, 0], 2*22474266964325.848, 0, 5, False, [0, 0, 255]))
-Radial_Object_List.append(RO.Radial_Object([width/2-200+400*random.random(), height/2-200+400*random.random()], [0, -100], 2*22474266964325.848, 0, 5, False, [0, 255, 255]))
-Radial_Object_List.append(RO.Radial_Object([width/2-200+400*random.random(), height/2-200+400*random.random()], [100, 0], 2*22474266964325.848, 0, 5, False, [255, 0, 255]))
-Radial_Object_List.append(RO.Radial_Object([width/2-200+400*random.random(), height/2-200+400*random.random()], [0, 100], 2*22474266964325.848, 0, 5, False, [255, 255, 0]))
-Radial_Object_List.append(RO.Radial_Object([width/2-200+400*random.random(), height/2-200+400*random.random()], [0, -100], 2*22474266964325.848, 0, 5, False, [255, 255, 255]))
+Radial_Object_List.append(RO.Radial_Object([width/2-200+400*random.random(), height/2-200+400*random.random()], [100, 0], 2*22474266964325.848, 0, 15, False, [255, 0, 0]))
+Radial_Object_List.append(RO.Radial_Object([width/2-200+400*random.random(), height/2-200+400*random.random()], [0, 100], 2*22474266964325.848, 0, 15, False, [0, 255, 0]))
+Radial_Object_List.append(RO.Radial_Object([width/2-200+400*random.random(), height/2-200+400*random.random()], [-100, 0], 2*22474266964325.848, 0, 15, False, [0, 0, 255]))
+Radial_Object_List.append(RO.Radial_Object([width/2-200+400*random.random(), height/2-200+400*random.random()], [0, -100], 2*22474266964325.848, 0, 15, False, [0, 255, 255]))
+Radial_Object_List.append(RO.Radial_Object([width/2-200+400*random.random(), height/2-200+400*random.random()], [100, 0], 2*22474266964325.848, 0, 15, False, [255, 0, 255]))
+Radial_Object_List.append(RO.Radial_Object([width/2-200+400*random.random(), height/2-200+400*random.random()], [0, 100], 2*22474266964325.848, 0, 15, False, [255, 255, 0]))
+Radial_Object_List.append(RO.Radial_Object([width/2-200+400*random.random(), height/2-200+400*random.random()], [0, -100], 2*22474266964325.848, 0, 15, False, [255, 255, 255]))
 Surface_List.append(SU.Surface([[0, 0], [width-1, 0]], 2))
 Surface_List.append(SU.Surface([[width/2-400, height/2], [width/2+400, height/2]], 2))
 Surface_List.append(SU.Surface([[width/2, height/2-200], [width/2, height/2+200]], 2))
-print(Surface_List[-1].use_perspective2)
 Surface_List.append(SU.Surface([[width-1, 0], [width-1, height-1]], 2))
 Surface_List.append(SU.Surface([[width-1, height-1], [0, height-1]], 2))
 Surface_List.append(SU.Surface([[0, 0], [0, height-1]], 2))
@@ -85,6 +84,7 @@ while running:
 	for i in Surface_List:
 		pygame.draw.line(screen,(255,255,255),i.points[0],i.points[1],1)
 	
-	Physics_Model_List[0].Surface_Collision(Radial_Object_List, Surface_List)
+	Physics_Model_List[0].Surface_Collision(Radial_Object_List, Surface_List, time_step=time_step)
+	Physics_Model_List[0].Radial_Object_Collision(Radial_Object_List, time_step=time_step)
 	
 	pygame.display.update()

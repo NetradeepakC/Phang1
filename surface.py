@@ -26,7 +26,7 @@ class Boundry:
 		self.value = 30
 
 class Surface:
-	def __init__(self, points, dimension):
+	def __init__(self, points, dimension, material=0):
 		coefficients = []
 		values = []
 		self.points = points
@@ -66,3 +66,5 @@ class Surface:
 			self.boundry_list=boundry_list_perspective2
 		else:
 			self.boundry_list=boundry_list_perspective1
+		
+		self.material=material
