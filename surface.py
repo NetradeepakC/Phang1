@@ -57,7 +57,7 @@ class Surface:
 		self.use_perspective2=True
 		for i in boundry_list_perspective1:
 			self.Centre_Parity.append(m2.value_at(centre[:-1],i));
-			if(not self.Centre_Parity[-1]==0):
+			if(not self.Centre_Parity[-1]<=10**(-6)):
 				self.use_perspective2=False
 		if(self.use_perspective2):
 			self.Centre_Parity=[]
